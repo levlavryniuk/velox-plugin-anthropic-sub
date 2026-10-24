@@ -1,0 +1,54 @@
+[package]
+name = "velox-plugin-anthropic-sub"
+description = "A velox provider plugin for Claude through a Claude Pro/Max subscription. Personal use, at your own risk."
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+publish = false
+
+[dependencies]
+base64 = "0.23.1"
+getrandom = "0.4.3"
+reqwest = { version = "0.13.5", default-features = false, features = ["json", "rustls"] }
+schemars = "1.2.3"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+sha2 = "0.11.1"
+velox-plugin-anthropic = { git = "https://github.com/levlavryniuk/velox", branch = "feat/anthropic-access-seam" }
+velox-sdk = { git = "https://github.com/levlavryniuk/velox", branch = "feat/anthropic-access-seam" }
+
+[dev-dependencies]
+insta = { version = "1.49.0", features = ["json"] }
+tokio = { version = "1.53.3", features = ["macros", "rt-multi-thread"] }
+velox-core = { git = "https://github.com/levlavryniuk/velox", branch = "feat/anthropic-access-seam" }
+velox-test-fakes = { git = "https://github.com/levlavryniuk/velox", branch = "feat/anthropic-access-seam" }
+wiremock = "0.6.5"
+
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "deny"
+unreachable_pub = "warn"
+rust_2018_idioms = { level = "warn", priority = -1 }
+
+[lints.clippy]
+all = { level = "deny", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+panic_in_result_fn = "deny"
+todo = "deny"
+unimplemented = "deny"
+unreachable = "deny"
+indexing_slicing = "deny"
+string_slice = "deny"
+dbg_macro = "deny"
+print_stdout = "deny"
+print_stderr = "deny"
+exit = "deny"
+mem_forget = "deny"
+let_underscore_future = "deny"
+let_underscore_must_use = "deny"
+allow_attributes = "deny"
+allow_attributes_without_reason = "deny"
+wildcard_enum_match_arm = "deny"

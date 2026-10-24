@@ -1,0 +1,68 @@
+---
+source: tests/wire.rs
+expression: sent(&endpoint).await
+---
+[
+  {
+    "body": {
+      "cache_control": {
+        "type": "ephemeral"
+      },
+      "max_tokens": 1024,
+      "messages": [
+        {
+          "content": [
+            {
+              "text": "Hello, world! this is the first message",
+              "type": "text"
+            }
+          ],
+          "role": "user"
+        }
+      ],
+      "model": "claude-sonnet-4-6",
+      "stream": true,
+      "system": [
+        {
+          "text": "x-anthropic-billing-header: cc_version=2.1.310.8ac; cc_entrypoint=sdk-cli; cch=dcdf3;",
+          "type": "text"
+        },
+        {
+          "text": "You are Claude Code, Anthropic's official CLI for Claude.",
+          "type": "text"
+        },
+        {
+          "text": "Be brief.",
+          "type": "text"
+        }
+      ],
+      "thinking": {
+        "type": "disabled"
+      },
+      "tools": [
+        {
+          "description": "The read tool.",
+          "input_schema": {
+            "type": "object"
+          },
+          "name": "Read"
+        },
+        {
+          "description": "The lint tool.",
+          "input_schema": {
+            "type": "object"
+          },
+          "name": "lint"
+        }
+      ]
+    },
+    "headers": {
+      "anthropic-beta": "claude-code-20250219,oauth-2025-04-20",
+      "anthropic-dangerous-direct-browser-access": "true",
+      "anthropic-version": "2023-06-01",
+      "authorization": "Bearer sk-ant-oat-1",
+      "user-agent": "claude-cli/2.1.310",
+      "x-app": "cli"
+    }
+  }
+]

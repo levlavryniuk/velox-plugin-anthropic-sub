@@ -17,7 +17,7 @@ use velox_test_fakes::Transport;
 use wiremock::matchers::{header, method, path};
 use wiremock::{Mock, MockServer, ResponseTemplate};
 
-const ID: &str = "anthropic-sub";
+const PROVIDER: &str = "anthropic";
 const MODELS: &str = include_str!("fixtures/models.json");
 const TEXT: &str = include_str!("fixtures/text.sse");
 const TOOL_CALL: &str = include_str!("fixtures/tool_call.sse");
@@ -114,7 +114,7 @@ async fn stream(
     request: Request,
 ) -> (Vec<ProviderEvent>, Result<(), ProviderError>) {
     let (sink, mut events) = EventSink::channel();
-    let result = endpoint.plugin.stream(ID, request, &cx(), sink).await;
+    let result = endpoint.plugin.stream(PROVIDER, request, &cx(), sink).await;
     let mut collected = Vec::new();
     while let Some(event) = events.try_recv() {
         collected.push(event);
@@ -174,7 +174,7 @@ velox_test_fakes::over_both_transports! {
     async fn models_are_listed_with_the_login(transport) {
         let endpoint = endpoint(transport, sse(TEXT)).await;
 
-        let models = endpoint.plugin.models(ID, &cx()).await.unwrap();
+        let models = endpoint.plugin.models(PROVIDER, &cx()).await.unwrap();
 
         assert!(models.iter().any(|model| model.id == "claude-sonnet-4-6"));
     }
@@ -195,7 +195,7 @@ velox_test_fakes::over_both_transports! {
 
         let error = endpoint
             .plugin
-            .stream(ID, request(Vec::new()), &ProviderCx::default(), sink)
+            .stream(PROVIDER, request(Vec::new()), &ProviderCx::default(), sink)
             .await
             .unwrap_err();
 

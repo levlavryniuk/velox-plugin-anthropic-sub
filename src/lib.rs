@@ -25,9 +25,12 @@ pub use crate::config::Config;
 use crate::identity::ClaudeCode;
 use crate::oauth::OAuth;
 
-/// The plugin id, as used in `[[plugin]] id = "anthropic-sub"`; also the id of its provider, so
-/// models are `anthropic-sub/claude-...`.
+/// The plugin id, as used in `[[plugin]] id = "anthropic-sub"`.
 pub const ID: &str = "anthropic-sub";
+
+/// The id of the plugin's provider, the same as the `anthropic` plugin's, so models are
+/// `anthropic/claude-...` whichever way you sign in. The two plugins cannot both be enabled.
+pub const PROVIDER: &str = "anthropic";
 
 fn provider(config: &Config) -> Result<Anthropic<ClaudeCode>, PluginError> {
     let client = reqwest::Client::builder()
@@ -40,7 +43,7 @@ fn provider(config: &Config) -> Result<Anthropic<ClaudeCode>, PluginError> {
         .map_err(|error| PluginError::new(format!("cannot start the HTTP client: {error}")))?;
     let oauth = OAuth::new(client, config.token_url()?);
     let access = ClaudeCode::new(oauth, config.starting_version()?);
-    Anthropic::new(ID, config.api(), access)
+    Anthropic::new(PROVIDER, config.api(), access)
 }
 
 fn builder() -> PluginBuilder<Config> {

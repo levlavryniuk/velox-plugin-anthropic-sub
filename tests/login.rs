@@ -19,6 +19,7 @@ use velox_test_fakes::{Harness, Respond, ScriptedUi, Shown, Transport};
 use wiremock::matchers::{method, path};
 use wiremock::{Mock, MockServer, ResponseTemplate};
 
+const PROVIDER: &str = "anthropic";
 const ID: &str = "anthropic-sub";
 const CLIENT_ID: &str = "9d1c250a-e61b-44d9-88ed-5944d1962f5e";
 
@@ -73,7 +74,7 @@ async fn harness(transport: Transport, service: &MockServer) -> Harness {
 
 async fn log_in(harness: &Harness, ui: &mut ScriptedUi) -> Result<(), AuthError> {
     let cancel = Cancel::new();
-    ui.serve(harness.core().login(ID, &AuthMethod::OAuth, &cancel))
+    ui.serve(harness.core().login(PROVIDER, &AuthMethod::OAuth, &cancel))
         .await
 }
 
@@ -138,7 +139,7 @@ velox_test_fakes::over_both_transports! {
 
         log_in(&harness, &mut ui).await.unwrap();
 
-        let stored = harness.stored_credential_of(ID).unwrap();
+        let stored = harness.stored_credential_of(PROVIDER).unwrap();
         assert_eq!(stored.data["access_token"], json!("sk-ant-oat-2"));
         assert_eq!(stored.data["refresh_token"], json!("sk-ant-ort-2"));
         let lasts = stored.expires_at.unwrap().abs_diff(unix_now() + 28_800);
@@ -189,7 +190,7 @@ velox_test_fakes::over_both_transports! {
 
         assert_eq!(failed_with(result), ProviderErrorKind::InvalidRequest);
         assert!(service.received_requests().await.unwrap().is_empty());
-        assert_eq!(harness.stored_credential_of(ID), None);
+        assert_eq!(harness.stored_credential_of(PROVIDER), None);
     }
 
     async fn a_user_who_dismisses_the_prompt_ends_the_login(transport) {
@@ -200,7 +201,7 @@ velox_test_fakes::over_both_transports! {
         let result = log_in(&harness, &mut ui).await;
 
         assert_eq!(failed_with(result), ProviderErrorKind::Cancelled);
-        assert_eq!(harness.stored_credential_of(ID), None);
+        assert_eq!(harness.stored_credential_of(PROVIDER), None);
     }
 
     async fn a_refused_code_fails_the_login_with_the_services_reason(transport) {
@@ -215,14 +216,14 @@ velox_test_fakes::over_both_transports! {
         let AuthError::Failed(cause) = result.unwrap_err() else { panic!("expected a failed login") };
         assert_eq!(cause.kind, ProviderErrorKind::Auth);
         assert!(cause.message.contains("code expired"), "{}", cause.message);
-        assert_eq!(harness.stored_credential_of(ID), None);
+        assert_eq!(harness.stored_credential_of(PROVIDER), None);
     }
 
     async fn refreshing_trades_the_refresh_token_for_new_tokens(transport) {
         let service = sign_in_service(tokens()).await;
         let plugin = initialized(transport, &service).await;
 
-        let renewed = plugin.refresh(ID, stored_login()).await.unwrap();
+        let renewed = plugin.refresh(PROVIDER, stored_login()).await.unwrap();
 
         let request = token_request(&service).await;
         assert_eq!(request["grant_type"], "refresh_token");
@@ -239,7 +240,7 @@ velox_test_fakes::over_both_transports! {
         let service = sign_in_service(bare).await;
         let plugin = initialized(transport, &service).await;
 
-        let renewed = plugin.refresh(ID, stored_login()).await.unwrap();
+        let renewed = plugin.refresh(PROVIDER, stored_login()).await.unwrap();
 
         assert_eq!(renewed.data["access_token"], json!("sk-ant-oat-3"));
         assert_eq!(renewed.data["refresh_token"], json!("sk-ant-ort-1"));
@@ -250,7 +251,7 @@ velox_test_fakes::over_both_transports! {
         let service = sign_in_service(refusal).await;
         let plugin = initialized(transport, &service).await;
 
-        let error = plugin.refresh(ID, stored_login()).await.unwrap_err();
+        let error = plugin.refresh(PROVIDER, stored_login()).await.unwrap_err();
 
         assert_eq!(error.kind, ProviderErrorKind::Auth);
         assert!(error.message.contains("/login"), "{}", error.message);
@@ -260,7 +261,7 @@ velox_test_fakes::over_both_transports! {
         let service = sign_in_service(tokens()).await;
         let plugin = initialized(transport, &service).await;
 
-        let error = plugin.refresh(ID, Credential::api_key("sk-ant-api")).await.unwrap_err();
+        let error = plugin.refresh(PROVIDER, Credential::api_key("sk-ant-api")).await.unwrap_err();
 
         assert_eq!(error.kind, ProviderErrorKind::Auth);
         assert!(service.received_requests().await.unwrap().is_empty());

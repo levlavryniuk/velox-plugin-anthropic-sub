@@ -19,10 +19,10 @@ velox plugin add --path ~/Coding/velox-plugin-anthropic-sub
 Then log in, in velox:
 
 ```text
-/login anthropic-sub
+/login
 ```
 
-velox shows a sign-in link. Open it, sign in, and paste the code the page ends with. Models are then `anthropic-sub/claude-…`; pick one with `/model`. The tokens renew themselves before they expire.
+velox shows a sign-in link. Open it, sign in, and paste the code the page ends with. Models are then `anthropic/claude-…`; pick one with `/model`. The provider has the same id as the `anthropic` plugin's, so turn that plugin off (`enabled = false`) while this one is on. The tokens renew themselves before they expire.
 
 ## Config
 

@@ -2313,7 +2313,7 @@ dependencies = [
 [[package]]
 name = "velox-core"
 version = "0.2.0"
-source = "git+https://github.com/levlavryniuk/velox?branch=feat%2Fanthropic-access-seam#4ccc904365328163fbc72833e4f1e8a0f40a9186"
+source = "git+https://github.com/levlavryniuk/velox?branch=main#b007c632dd47c247c3c8ef1a9dc4db812589ca8f"
 dependencies = [
  "futures-util",
  "humantime",
@@ -2335,7 +2335,7 @@ dependencies = [
 [[package]]
 name = "velox-plugin"
 version = "0.2.0"
-source = "git+https://github.com/levlavryniuk/velox?branch=feat%2Fanthropic-access-seam#4ccc904365328163fbc72833e4f1e8a0f40a9186"
+source = "git+https://github.com/levlavryniuk/velox?branch=main#b007c632dd47c247c3c8ef1a9dc4db812589ca8f"
 dependencies = [
  "serde",
  "serde_json",
@@ -2347,7 +2347,7 @@ dependencies = [
 [[package]]
 name = "velox-plugin-anthropic"
 version = "0.2.0"
-source = "git+https://github.com/levlavryniuk/velox?branch=feat%2Fanthropic-access-seam#4ccc904365328163fbc72833e4f1e8a0f40a9186"
+source = "git+https://github.com/levlavryniuk/velox?branch=main#b007c632dd47c247c3c8ef1a9dc4db812589ca8f"
 dependencies = [
  "futures-util",
  "reqwest",
@@ -2381,7 +2381,7 @@ dependencies = [
 [[package]]
 name = "velox-protocol"
 version = "0.2.0"
-source = "git+https://github.com/levlavryniuk/velox?branch=feat%2Fanthropic-access-seam#4ccc904365328163fbc72833e4f1e8a0f40a9186"
+source = "git+https://github.com/levlavryniuk/velox?branch=main#b007c632dd47c247c3c8ef1a9dc4db812589ca8f"
 dependencies = [
  "schemars",
  "serde",
@@ -2392,7 +2392,7 @@ dependencies = [
 [[package]]
 name = "velox-sdk"
 version = "0.2.0"
-source = "git+https://github.com/levlavryniuk/velox?branch=feat%2Fanthropic-access-seam#4ccc904365328163fbc72833e4f1e8a0f40a9186"
+source = "git+https://github.com/levlavryniuk/velox?branch=main#b007c632dd47c247c3c8ef1a9dc4db812589ca8f"
 dependencies = [
  "schemars",
  "serde",
@@ -2405,7 +2405,7 @@ dependencies = [
 [[package]]
 name = "velox-test-fakes"
 version = "0.2.0"
-source = "git+https://github.com/levlavryniuk/velox?branch=feat%2Fanthropic-access-seam#4ccc904365328163fbc72833e4f1e8a0f40a9186"
+source = "git+https://github.com/levlavryniuk/velox?branch=main#b007c632dd47c247c3c8ef1a9dc4db812589ca8f"
 dependencies = [
  "schemars",
  "serde",

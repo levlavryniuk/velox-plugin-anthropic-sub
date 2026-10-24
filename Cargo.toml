@@ -14,14 +14,14 @@ schemars = "1.2.3"
 serde = { version = "1.0.229", features = ["derive"] }
 serde_json = "1.0.154"
 sha2 = "0.11.1"
-velox-plugin-anthropic = { git = "https://github.com/levlavryniuk/velox", branch = "feat/anthropic-access-seam" }
-velox-sdk = { git = "https://github.com/levlavryniuk/velox", branch = "feat/anthropic-access-seam" }
+velox-plugin-anthropic = { git = "https://github.com/levlavryniuk/velox", branch = "main" }
+velox-sdk = { git = "https://github.com/levlavryniuk/velox", branch = "main" }
 
 [dev-dependencies]
 insta = { version = "1.49.0", features = ["json"] }
 tokio = { version = "1.53.3", features = ["macros", "rt-multi-thread"] }
-velox-core = { git = "https://github.com/levlavryniuk/velox", branch = "feat/anthropic-access-seam" }
-velox-test-fakes = { git = "https://github.com/levlavryniuk/velox", branch = "feat/anthropic-access-seam" }
+velox-core = { git = "https://github.com/levlavryniuk/velox", branch = "main" }
+velox-test-fakes = { git = "https://github.com/levlavryniuk/velox", branch = "main" }
 wiremock = "0.6.5"
 
 [lints.rust]

@@ -9,7 +9,9 @@ use std::sync::{Mutex, PoisonError};
 
 use serde_json::{Value, json};
 use velox_plugin_anthropic::Access;
-use velox_sdk::{AuthMethod, Credential, ProviderError, ToolDeclaration};
+use velox_sdk::{
+    AuthMethod, Credential, LoginCx, ProviderError, ProviderErrorKind, ToolDeclaration,
+};
 
 use crate::billing;
 use crate::oauth::OAuth;
@@ -61,9 +63,8 @@ impl Access for ClaudeCode {
         &self,
         credential: Option<&Credential>,
     ) -> Result<Vec<(String, String)>, ProviderError> {
-        let credential = credential.ok_or_else(|| {
-            ProviderError::new(velox_sdk::ProviderErrorKind::Auth, "not logged in")
-        })?;
+        let credential = credential
+            .ok_or_else(|| ProviderError::new(ProviderErrorKind::Auth, "not logged in"))?;
         let tokens = Tokens::from_credential(credential)?;
         Ok([
             ("authorization", format!("Bearer {}", tokens.access_token)),
@@ -84,7 +85,7 @@ impl Access for ClaudeCode {
         &self,
         _provider: &str,
         _method: &AuthMethod,
-        cx: &velox_sdk::LoginCx,
+        cx: &LoginCx,
     ) -> Result<Credential, ProviderError> {
         self.oauth.login(cx).await.map(Tokens::into_credential)
     }
@@ -152,8 +153,6 @@ fn first_user_text(body: &Value) -> String {
 
 #[cfg(test)]
 mod tests {
-    use velox_sdk::ProviderErrorKind;
-
     use super::*;
 
     fn identity(version: Version) -> ClaudeCode {
